@@ -218,17 +218,15 @@ const checkForAppointment = async (centerId, startDateString, endDateString) => 
 
             if (startDate && date < startDate) {
                 continue;
-            }
-
-            if (endDate && date > endDate) {
+            } else if (endDate && date > endDate) {
                 continue;
+            } else {
+                keepCheckingForAppointment = false;
+                clickApptButton(centerId);
+                clickSelectAppointmentButton(date);
+                playBeep();
+                break;
             }
-
-            keepCheckingForAppointment = false;
-            clickApptButton(centerId);
-            clickSelectAppointmentButton(date);
-            playBeep();
-            break;
         }
 
         if (!keepCheckingForAppointment) {
