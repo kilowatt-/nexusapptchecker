@@ -174,7 +174,11 @@ const clickSelectAppointmentButton = async (date) => {
     }
 }
 
-const checkForAppointment = async (centerId) => {
+const checkForAppointment = async (centerId, startDateString, endDateString) => {
+
+    const startDate = startDateString ? new Date(startDateString) : null;
+    const endDate = endDateString ? new Date(endDateString) : null;
+
     keepCheckingForAppointment = true;
     let errorCount = 0;
     while (keepCheckingForAppointment) {
@@ -211,6 +215,15 @@ const checkForAppointment = async (centerId) => {
         if (apptAvailable) {
             const dateSpan = document.getElementsByClassName("date")[0];
             const date = new Date(dateSpan.innerText);
+
+            if (startDate && date < startDate) {
+                continue;
+            }
+
+            if (endDate && date > endDate) {
+                continue;
+            }
+
             keepCheckingForAppointment = false;
             clickApptButton(centerId);
             clickSelectAppointmentButton(date);
